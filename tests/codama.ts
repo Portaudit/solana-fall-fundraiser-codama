@@ -185,11 +185,17 @@ describe("codama", () => {
   // other. Build the instruction from TODO 3 again, convert it, send it through
   // `provider.sendAndConfirm`, and assert the vault grew by exactly AMOUNT.
   // Change `it.skip` to `it` when you attempt it.
-  it.skip("BONUS · a Codama-built instruction goes through Anchor's provider", async () => {
+  it("BONUS · a Codama-built instruction goes through Anchor's provider", async () => {
     const before = BigInt((await provider.connection.getTokenAccountBalance(vault)).value.amount);
 
-    // const ix = await getContributeInstructionAsync({ ... });
-    // await provider.sendAndConfirm(new anchor.web3.Transaction().add(toWeb3Instruction(ix)));
+    const ix = await getContributeInstructionAsync({
+      contributor: createNoopSigner(address(provider.publicKey.toBase58())),
+      mintToRaise: address(mint.toBase58()),
+      fundraiser: address(fundraiser.toBase58()),
+      vault: address(vault.toBase58()),
+      amount: AMOUNT,
+    });
+    await provider.sendAndConfirm(new anchor.web3.Transaction().add(toWeb3Instruction(ix)));
 
     const after = BigInt((await provider.connection.getTokenAccountBalance(vault)).value.amount);
     assert.strictEqual(after - before, BigInt(AMOUNT));
