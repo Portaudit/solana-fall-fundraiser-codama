@@ -29,12 +29,12 @@ import { toWeb3Instruction } from "./helpers/kit-adapter";
 // ─── TODO 1 · import the client you generated ────────────────────────────────
 // Uncomment once `clients/js/src/generated/index.ts` exists.
 //
-// import {
-//   getFundraiserDecoder,
-//   getContributeInstruction,
-//   getContributeInstructionAsync,
-//   FUNDRAISER_PROGRAM_ADDRESS,
-// } from "../clients/js/src/generated";
+import {
+  getFundraiserDecoder,
+  getContributeInstruction,
+  getContributeInstructionAsync,
+  FUNDRAISER_PROGRAM_ADDRESS,
+} from "../clients/js/src/generated";
 // ─────────────────────────────────────────────────────────────────────────────
 
 const TARGET = 30_000_000; // 30 tokens on a 6-decimal mint
@@ -105,17 +105,16 @@ describe("codama", () => {
   // `program.account.fundraiser.fetch()` gives you. Note the types: Kit hands
   // you base58 strings for pubkeys and `bigint` for u64, not PublicKey / BN.
   it("TODO 1 · decodes the Fundraiser account with the generated decoder", async () => {
-    // assert.strictEqual(FUNDRAISER_PROGRAM_ADDRESS, program.programId.toBase58());
-    //
-    // const info = await provider.connection.getAccountInfo(fundraiser);
-    // const decoded = getFundraiserDecoder().decode(info.data);
-    // const viaAnchor = await program.account.fundraiser.fetch(fundraiser);
-    //
-    // assert.strictEqual(decoded.maker, maker.publicKey.toBase58());
-    // assert.strictEqual(decoded.amountToRaise, BigInt(TARGET));
-    // assert.strictEqual(decoded.currentAmount, BigInt(AMOUNT));
-    // assert.strictEqual(decoded.bump, viaAnchor.bump);
-    assert.fail("TODO 1: generate the client, uncomment the import at the top, then this body");
+    assert.strictEqual(FUNDRAISER_PROGRAM_ADDRESS, program.programId.toBase58());
+
+    const info = await provider.connection.getAccountInfo(fundraiser);
+    const decoded = getFundraiserDecoder().decode(info.data);
+    const viaAnchor = await program.account.fundraiser.fetch(fundraiser);
+
+    assert.strictEqual(decoded.maker, maker.publicKey.toBase58());
+    assert.strictEqual(decoded.amountToRaise, BigInt(TARGET));
+    assert.strictEqual(decoded.currentAmount, BigInt(AMOUNT));
+    assert.strictEqual(decoded.bump, viaAnchor.bump);
   });
 
   // ─── TODO 2 · encode ───────────────────────────────────────────────────────
